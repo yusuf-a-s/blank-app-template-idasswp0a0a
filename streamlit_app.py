@@ -180,14 +180,6 @@ def plot_heatmap(bs_model, spot_range, vol_range, strike):
 # Main Page for Output Display
 st.title("Black-Scholes Pricing Model")
 
-# Table of Inputs
-input_data = {
-    "Current Asset Price": [current_price],
-    "Strike Price": [strike],
-    "Time to Maturity (Years)": [time_to_maturity],
-    "Volatility (σ)": [volatility],
-    "Risk-Free Interest Rate": [interest_rate],
-}
 input_df = pd.DataFrame(input_data)
 st.table(input_df)
 
@@ -221,17 +213,17 @@ with col2:
     """, unsafe_allow_html=True)
 
 st.markdown("")
-st.title("Options Price - Interactive Heatmap")
+st.title("Heatmap")
 
 # Interactive Sliders and Heatmaps for Call and Put Options
 col1, col2 = st.columns([1,1], gap="small")
 
 with col1:
-    st.subheader("Call Price Heatmap")
+    st.subheader("Calls")
     heatmap_fig_call, _ = plot_heatmap(bs_model, spot_range, vol_range, strike)
     st.pyplot(heatmap_fig_call)
 
 with col2:
-    st.subheader("Put Price Heatmap")
+    st.subheader("Puts")
     _, heatmap_fig_put = plot_heatmap(bs_model, spot_range, vol_range, strike)
     st.pyplot(heatmap_fig_put)
