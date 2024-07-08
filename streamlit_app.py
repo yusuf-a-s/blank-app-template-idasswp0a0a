@@ -180,8 +180,13 @@ def plot_heatmap(bs_model, spot_range, vol_range, strike):
 # Main Page for Output Display
 st.title("Black-Scholes Pricing Model")
 
-input_df = pd.DataFrame(input_data)
-st.table(input_df)
+input_data = {
+    "Current Asset Price": [current_price],
+    "Strike Price": [strike],
+    "Time to Maturity (Years)": [time_to_maturity],
+    "Volatility (σ)": [volatility],
+    "Risk-Free Interest Rate": [interest_rate],
+}
 
 # Calculate Call and Put values
 bs_model = BlackScholes(time_to_maturity, strike, current_price, volatility, interest_rate)
