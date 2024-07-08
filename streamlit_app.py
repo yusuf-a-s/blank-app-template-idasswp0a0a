@@ -171,7 +171,7 @@ def plot_heatmap(bs_model, spot_range, vol_range, strike):
     ax_put.set_title('Put Heatmap')
     ax_put.set_xlabel('Spot Price')
     ax_put.set_ylabel('Volatility')
-    ax_put.set_xticklabels(labelcolor='white')
+    ax_put.get_xticklabels(labelcolor='white')
     
     return fig_call, fig_put
 
