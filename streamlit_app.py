@@ -9,7 +9,7 @@ import seaborn as sns
 
 #######################
 # Page configuration
-sns.set(rc={'figure.facecolor':'#0e1117'})
+sns.set(rc={'figure.facecolor':'#0e1117','ytick.labelcolor':'white','xtick.labelcolor':'white'})
 st.set_page_config(
     page_title="Black-Scholes Option Pricing Model",
     layout="wide",
@@ -171,7 +171,6 @@ def plot_heatmap(bs_model, spot_range, vol_range, strike):
     ax_put.set_title('Put Heatmap')
     ax_put.set_xlabel('Spot Price')
     ax_put.set_ylabel('Volatility')
-    ax_put.get_xticklabels(labelcolor='#000000')
     
     return fig_call, fig_put
 
