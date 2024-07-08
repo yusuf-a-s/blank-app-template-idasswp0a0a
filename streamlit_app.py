@@ -17,7 +17,8 @@ def black_scholes(S, K, T, r, sigma, option_type="call"):
 def fetch_data(ticker):
     data = yf.download(ticker, start="2023-01-01", end="2023-12-31")
     spot_price = data['Adj Close'][-1]
-    return spot_price
+    vol = data['Adj Close'].pct_change().std() * np.sqrt(252)  # Annualized volatility
+    return spot_price, vol
 
 # Function to fetch risk-free rate (10-year government bond yield) from Yahoo Finance
 def fetch_yield(currency):
@@ -61,13 +62,16 @@ tenor = st.number_input('Tenor (in years)', value=1.0)
 st.header('Currency Option')
 currency = st.selectbox('Select Currency', ['USD', 'EUR', 'JPY'])
 
-# Fetch spot prices from Yahoo Finance
+# Fetch spot prices and volatilities from Yahoo Finance
 st.header('Market Data')
 spot_prices = []
+volatilities = []
 for underlying in underlyings:
-    spot_price = fetch_data(underlying)
+    spot_price, vol = fetch_data(underlying)
     spot_prices.append(spot_price)
+    volatilities.append(vol)
     st.write(f'Spot Price for {underlying}: {spot_price:.2f}')
+    st.write(f'Volatility for {underlying}: {vol:.2%}')
 
 # Fetch risk-free rate (10-year government bond yield)
 risk_free_rate = fetch_yield(currency)
@@ -81,7 +85,7 @@ if st.button('Calculate Coupon'):
     for i, underlying in enumerate(underlyings):
         S = spot_prices[i]
         K = put_strike
-        sigma = 0.2  # Hardcoded volatility for demonstration
+        sigma = volatilities[i]
         put_price = black_scholes(S, K, T, r, sigma, option_type="put")
         autocall_price = black_scholes(S, autocall_barrier, T, r, sigma, option_type="call")
         coupon += (put_price + autocall_price) / len(underlyings)
@@ -96,7 +100,9 @@ st.write("""
 2. Input the put strike, autocall barrier, and coupon barrier values.
 3. Provide the observation frequency and tenor.
 4. Select the currency for which you want to fetch the risk-free rate.
-5. The spot prices will be fetched automatically from Yahoo Finance.
-6. The risk-free rate will be fetched based on the 10-year government bond yield of the selected currency.
-7. Click 'Calculate Coupon' to get the coupon price for the structured product.
+5. The spot prices, volatilities, and risk-free rate will be fetched automatically from Yahoo Finance.
+6. Click 'Calculate Coupon' to get the coupon price for the structured product.
+
+**Handcrafted with love by Yusuf :)**
 """)
+
