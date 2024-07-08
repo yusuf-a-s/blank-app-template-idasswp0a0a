@@ -88,7 +88,7 @@ if st.button('Calculate Coupon'):
         sigma = volatilities[i]
         put_price = black_scholes(S, K, T, r, sigma, option_type="put")
         autocall_price = black_scholes(S, autocall_barrier, T, r, sigma, option_type="call")
-        coupon += (put_price + autocall_price) / len(underlyings)
+        coupon += (put_price + autocall_price) / 1000000
     
     st.subheader('Coupon Price')
     st.write(f'The coupon price for the Phoenix Memory Structured Product is: {coupon:.2f}')
