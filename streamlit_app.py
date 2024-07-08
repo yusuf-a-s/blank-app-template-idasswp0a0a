@@ -40,7 +40,7 @@ if ticker:
         st.warning(f"Could not retrieve data for {ticker}. Using default values.")
 
 S = st.number_input("Current stock price (S):", value=S, min_value=0.0)
-sigma = st.number_input("Volatility (sigma):", value=sigma, min_value=0.0, max_value=1.0)
+sigma = st.number_input("Volatility (sigma):", value=sigma*10, min_value=0.0, max_value=1.0)
 
 K = st.number_input("Strike price (K):", value=100.0, min_value=0.0)
 T = st.number_input("Time to maturity (T) in years:", value=1.0, min_value=0.0)
@@ -52,4 +52,3 @@ if st.button("Calculate"):
     
     st.write(f"Call Option Price: {call_price:.2f}")
     st.write(f"Put Option Price: {put_price:.2f}")
-    print sigma
