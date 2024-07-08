@@ -62,6 +62,10 @@ tenor = st.number_input('Tenor (in years)', value=1.0)
 st.header('Currency Option')
 currency = st.selectbox('Select Currency', ['USD', 'EUR', 'JPY'])
 
+# Input notional amount
+st.header('Notional Amount')
+notional_amount = st.number_input('Notional Amount', min_value=1, value=1000000, step=100000)
+
 # Fetch spot prices and volatilities from Yahoo Finance
 st.header('Market Data')
 spot_prices = []
@@ -90,8 +94,10 @@ if st.button('Calculate Coupon'):
         autocall_price = black_scholes(S, autocall_barrier, T, r, sigma, option_type="call")
         coupon += (put_price + autocall_price) / len(underlyings)
     
+    total_coupon = coupon * notional_amount
+    
     st.subheader('Coupon Price')
-    st.write(f'The coupon price for the Phoenix Memory Structured Product is: {coupon:.2f}')
+    st.write(f'The coupon price for the Phoenix Memory Structured Product with a notional amount of {notional_amount:,} is: {total_coupon:.2f}')
 
 # Instructions for the user
 st.write("""
@@ -100,6 +106,7 @@ st.write("""
 2. Input the put strike, autocall barrier, and coupon barrier values.
 3. Provide the observation frequency and tenor.
 4. Select the currency for which you want to fetch the risk-free rate.
-5. The spot prices, volatilities, and risk-free rate will be fetched automatically from Yahoo Finance.
-6. Click 'Calculate Coupon' to get the coupon price for the structured product.
+5. Enter the notional amount for the structured product.
+6. The spot prices, volatilities, and risk-free rate will be fetched automatically from Yahoo Finance.
+7. Click 'Calculate Coupon' to get the coupon price for the structured product.
 """)
