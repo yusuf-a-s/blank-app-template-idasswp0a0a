@@ -9,7 +9,6 @@ import seaborn as sns
 
 #######################
 # Page configuration
-sns.set(rc={'axes.facecolor':'black', 'figure.facecolor':'black'})
 st.set_page_config(
     page_title="Black-Scholes Option Pricing Model",
     layout="wide",
@@ -122,9 +121,6 @@ class BlackScholes:
 # Sidebar for User Inputs
 with st.sidebar:
     st.title("Black-Scholes Model")
-    st.write("`Created by:`")
-    linkedin_url = "linkedin.com/in/Yusuf-Safar"
-    st.markdown(f'<a href="{linkedin_url}" target="_blank" style="text-decoration: none; color: inherit;"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" width="25" height="25" style="vertical-align: middle; margin-right: 10px;">`Yusuf Safar`</a>', unsafe_allow_html=True)
 
     current_price = st.number_input("Current Asset Price", value=100.0)
     strike = st.number_input("Strike Price", value=100.0)
@@ -163,14 +159,14 @@ def plot_heatmap(bs_model, spot_range, vol_range, strike):
     
     # Plotting Call Price Heatmap
     fig_call, ax_call = plt.subplots(figsize=(10, 8))
-    sns.heatmap(call_prices, xticklabels=np.round(spot_range, 2), yticklabels=np.round(vol_range, 2), annot=True, annot_kws={'color':'white'}, fmt=".2f", cmap="Greens", ax=ax_call)
+    sns.heatmap(call_prices, xticklabels=np.round(spot_range, 2), yticklabels=np.round(vol_range, 2), annot=True, fmt=".2f", cmap="Greens", ax=ax_call)
     ax_call.set_title('Call Heatmap')
     ax_call.set_xlabel('Spot Price')
     ax_call.set_ylabel('Volatility')
     
     # Plotting Put Price Heatmap
     fig_put, ax_put = plt.subplots(figsize=(10, 8))
-    sns.heatmap(put_prices, xticklabels=np.round(spot_range, 2), yticklabels=np.round(vol_range, 2), annot=True, xticklabels_kws={'color':'white'}, yticklabels_kws={'color':'white'}, fmt=".2f", cmap="Reds", ax=ax_put)
+    sns.heatmap(put_prices, xticklabels=np.round(spot_range, 2), yticklabels=np.round(vol_range, 2), annot=True, fmt=".2f", cmap="Reds", ax=ax_put)
     ax_put.set_title('Put Heatmap')
     ax_put.set_xlabel('Spot Price')
     ax_put.set_ylabel('Volatility')
