@@ -83,6 +83,7 @@ if st.button('Calculate Coupon'):
     T = tenor
     r = risk_free_rate
     barrier_breached = False
+    
     for i, underlying in enumerate(underlyings):
         S = spot_prices[i]
         K = put_strike
@@ -90,12 +91,12 @@ if st.button('Calculate Coupon'):
         
         # Check if autocall barrier breached
         if S >= autocall_barrier:
-            coupon += 100  # Example: Pay 100 if barrier breached
+            coupon += 100  # Example: Pay 100 if autocall barrier breached
         
         # Check if put barrier breached
         if S <= put_strike:
             barrier_breached = True
-        
+    
     # Adjust coupon if put barrier breached during observation period
     if barrier_breached:
         coupon = 0  # Example: Pay nothing if put barrier breached
@@ -112,5 +113,4 @@ st.write("""
 4. Select the currency for which you want to fetch the risk-free rate.
 5. The spot prices, volatilities, and risk-free rate will be fetched automatically from Yahoo Finance.
 6. Click 'Calculate Coupon' to get the coupon price for the structured product with memory feature.
-**Handcrafter with love by Yusuf :)**
 """)
