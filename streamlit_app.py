@@ -1,4 +1,7 @@
 import math
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 from scipy.stats import norm
 import streamlit as st
 
@@ -33,5 +36,33 @@ if st.button("Calculate"):
     call_price = call_option_price(S, K, T, r, sigma)
     put_price = put_option_price(S, K, T, r, sigma)
     
-    st.write(f"Call Option Price: {call_price:.2f}")
-    st.write(f"Put Option Price: {put_price:.2f}")
+    st.markdown(f"<div style='padding: 10px; background-color: #dff0d8; border-radius: 5px; border: 1px solid #d6e9c6;'>Call Option Price: <b>${call_price:.2f}</b></div>", unsafe_allow_html=True)
+    st.markdown(f"<div style='padding: 10px; background-color: #f2dede; border-radius: 5px; border: 1px solid #ebccd1;'>Put Option Price: <b>${put_price:.2f}</b></div>", unsafe_allow_html=True)
+
+    st.subheader("Option Price Heatmaps")
+
+    # Generate heatmaps
+    spot_prices = np.linspace(S * 0.5, S * 1.5, 50)
+    volatilities = np.linspace(sigma * 0.5, sigma * 1.5, 50)
+    
+    call_prices = np.zeros((len(spot_prices), len(volatilities)))
+    put_prices = np.zeros((len(spot_prices), len(volatilities)))
+    
+    for i, sp in enumerate(spot_prices):
+        for j, vol in enumerate(volatilities):
+            call_prices[i, j] = call_option_price(sp, K, T, r, vol)
+            put_prices[i, j] = put_option_price(sp, K, T, r, vol)
+    
+    fig, ax = plt.subplots(1, 2, figsize=(14, 6))
+    
+    sns.heatmap(call_prices, ax=ax[0], cmap="YlGnBu", xticklabels=np.round(volatilities, 2), yticklabels=np.round(spot_prices, 2))
+    ax[0].set_title("Call Option Prices")
+    ax[0].set_xlabel("Volatility")
+    ax[0].set_ylabel("Spot Price")
+    
+    sns.heatmap(put_prices, ax=ax[1], cmap="YlOrRd", xticklabels=np.round(volatilities, 2), yticklabels=np.round(spot_prices, 2))
+    ax[1].set_title("Put Option Prices")
+    ax[1].set_xlabel("Volatility")
+    ax[1].set_ylabel("Spot Price")
+    
+    st.pyplot(fig)
