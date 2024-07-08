@@ -33,8 +33,6 @@ st.markdown("""
     background-color: #90ee90; /* Light green background */
     color: black; /* Black font color */
     margin-right: 5px; /* Spacing between CALL and PUT */
-    margin-top: 5px
-    margin-bottom: 5px
     border-radius: 10px; /* Rounded corners */
 }
 
@@ -42,8 +40,6 @@ st.markdown("""
     background-color: #ffcccb; /* Light red background */
     color: black; /* Black font color */
     margin-left: 5px; /* Spacing between CALL and PUT */
-    margin-top: 5px
-    margin-bottom: 5px
     border-radius: 10px; /* Rounded corners */
 }
 
