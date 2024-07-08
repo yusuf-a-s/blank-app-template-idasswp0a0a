@@ -166,7 +166,7 @@ def plot_heatmap(bs_model, spot_range, vol_range, strike):
     ax_call.set_title('Call Heatmap')
     ax_call.set_xlabel('Spot Price')
     ax_call.set_ylabel('Volatility')
-    fig_call.update(plot_bgcolor='black')
+    ax_call.update(plot_bgcolor='black')
     
     # Plotting Put Price Heatmap
     fig_put, ax_put = plt.subplots(figsize=(10, 8))
@@ -174,7 +174,7 @@ def plot_heatmap(bs_model, spot_range, vol_range, strike):
     ax_put.set_title('Put Heatmap')
     ax_put.set_xlabel('Spot Price')
     ax_put.set_ylabel('Volatility')
-    fig_put.update(plot_bgcolor='black')
+    ax_put.update(plot_bgcolor='black')
     
     return fig_call, fig_put
 
