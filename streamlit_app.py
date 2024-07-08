@@ -1,6 +1,7 @@
 import math
 from scipy.stats import norm
 import streamlit as st
+import yfinance as yf  # for fetching stock data
 
 # Function to calculate the d1 and d2 parameters
 def calculate_d1_d2(S, K, T, r, sigma):
@@ -23,11 +24,25 @@ def put_option_price(S, K, T, r, sigma):
 # Streamlit interface
 st.title("Black-Scholes Option Pricing Calculator")
 
-S = st.number_input("Current stock price (S):", value=100.0, min_value=0.0)
+# Optional ticker input
+ticker = st.text_input("Enter Ticker (Optional, e.g., AAPL):")
+
+if ticker:
+    try:
+        stock = yf.Ticker(ticker)
+        S = stock.history(period="1d").iloc[-1]['Close']  # Get current stock price
+        sigma = stock.history(period="1y").Close.pct_change().std()  # Calculate volatility
+    except:
+        st.warning(f"Could not retrieve data for {ticker}. Using default values.")
+        S = 100.0  # Default stock price
+        sigma = 0.2  # Default volatility
+else:
+    S = st.number_input("Current stock price (S):", value=100.0, min_value=0.0)
+    sigma = st.number_input("Volatility (sigma):", value=0.2, min_value=0.0, max_value=1.0)
+
 K = st.number_input("Strike price (K):", value=100.0, min_value=0.0)
 T = st.number_input("Time to maturity (T) in years:", value=1.0, min_value=0.0)
 r = st.number_input("Risk-free interest rate (r):", value=0.05, min_value=0.0, max_value=1.0)
-sigma = st.number_input("Volatility (sigma):", value=0.2, min_value=0.0, max_value=1.0)
 
 if st.button("Calculate"):
     call_price = call_option_price(S, K, T, r, sigma)
@@ -35,3 +50,4 @@ if st.button("Calculate"):
     
     st.write(f"Call Option Price: {call_price:.2f}")
     st.write(f"Put Option Price: {put_price:.2f}")
+
