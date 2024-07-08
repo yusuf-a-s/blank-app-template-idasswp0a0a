@@ -1,4 +1,3 @@
 scipy
 streamlit
-seaborn
-matplotlib
+numpy
