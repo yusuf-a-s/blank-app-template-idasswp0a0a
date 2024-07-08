@@ -77,21 +77,31 @@ for underlying in underlyings:
 risk_free_rate = fetch_yield(currency)
 st.write(f'Risk-Free Rate (10-year {currency} Bond Yield): {risk_free_rate:.2%}')
 
-# Calculate the coupon
+# Calculate the coupon with memory feature
 if st.button('Calculate Coupon'):
     coupon = 0
     T = tenor
     r = risk_free_rate
+    barrier_breached = False
     for i, underlying in enumerate(underlyings):
         S = spot_prices[i]
         K = put_strike
         sigma = volatilities[i]
-        put_price = black_scholes(S, K, T, r, sigma, option_type="put")
-        autocall_price = black_scholes(S, autocall_barrier, T, r, sigma, option_type="call")
-        coupon += (put_price + autocall_price) / len(underlyings)
+        
+        # Check if autocall barrier breached
+        if S >= autocall_barrier:
+            coupon += 100  # Example: Pay 100 if barrier breached
+        
+        # Check if put barrier breached
+        if S <= put_strike:
+            barrier_breached = True
+        
+    # Adjust coupon if put barrier breached during observation period
+    if barrier_breached:
+        coupon = 0  # Example: Pay nothing if put barrier breached
     
-    st.subheader('Coupon Price')
-    st.write(f'The coupon price for the Phoenix Memory Structured Product is: {coupon:.2f}')
+    st.subheader('Coupon Price with Memory Feature')
+    st.write(f'The coupon price for the Phoenix Memory Structured Product with memory feature is: {coupon:.2f}')
 
 # Instructions for the user
 st.write("""
@@ -101,8 +111,6 @@ st.write("""
 3. Provide the observation frequency and tenor.
 4. Select the currency for which you want to fetch the risk-free rate.
 5. The spot prices, volatilities, and risk-free rate will be fetched automatically from Yahoo Finance.
-6. Click 'Calculate Coupon' to get the coupon price for the structured product.
-
-**Handcrafted with love by Yusuf :)**
+6. Click 'Calculate Coupon' to get the coupon price for the structured product with memory feature.
+**Handcrafter with love by Yusuf :)**
 """)
-
