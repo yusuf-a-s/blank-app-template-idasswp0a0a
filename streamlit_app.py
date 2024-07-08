@@ -52,3 +52,4 @@ if st.button("Calculate"):
     
     st.write(f"Call Option Price: {call_price:.2f}")
     st.write(f"Put Option Price: {put_price:.2f}")
+    print sigma
