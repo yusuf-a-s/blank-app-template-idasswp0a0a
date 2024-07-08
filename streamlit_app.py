@@ -9,7 +9,7 @@ import seaborn as sns
 
 #######################
 # Page configuration
-sns.set(rc={'figure.facecolor':'transparent'})
+sns.set(rc={'figure.facecolor':'#0e1117'})
 st.set_page_config(
     page_title="Black-Scholes Option Pricing Model",
     layout="wide",
