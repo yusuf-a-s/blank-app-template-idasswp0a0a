@@ -35,7 +35,7 @@ if ticker:
     try:
         stock = yf.Ticker(ticker)
         S = stock.history(period="1d").iloc[-1]['Close']  # Get current stock price
-        sigma = stock.history(period="30d").Close.pct_change().std()  # Calculate volatility
+        sigma = stock.history(period="1mo").Close.pct_change().std()  # Calculate volatility
     except:
         st.warning(f"Could not retrieve data for {ticker}. Using default values.")
 
