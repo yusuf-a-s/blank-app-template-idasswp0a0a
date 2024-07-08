@@ -175,8 +175,6 @@ def plot_heatmap(bs_model, spot_range, vol_range, strike):
 
 
 # Main Page for Output Display
-st.title("Black-Scholes Pricing Model")
-
 input_data = {
     "Current Asset Price": [current_price],
     "Strike Price": [strike],
